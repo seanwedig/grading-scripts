@@ -18,6 +18,10 @@ module Grading
       find_and_open_single(dir, 'sln')
     end
 
+    def cleanup(dir)
+      FileUtils.rm_rf(clean_path(dir), verbose: true)
+    end
+
     private
 
     def clean_path(path)
