@@ -1,5 +1,8 @@
+require 'find'
+
 module Grading
   class ExerciseLoader
+    MS_BUILD = 'c:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild'
 
     def initialize(download_dir)
       @download_dir = clean_path(download_dir)
@@ -22,6 +25,11 @@ module Grading
       FileUtils.rm_rf(clean_path(dir), verbose: true)
     end
 
+    def build_sln_in(dir)
+      sln_file = first_by_extension(dir, 'sln')
+      `#{MS_BUILD} #{sln_file} /t:Clean;Rebuild`
+    end
+
     private
 
     def clean_path(path)
@@ -36,11 +44,15 @@ module Grading
       file_paths
     end
 
-    def find_and_open_single(base_dir, extension)
+    def first_by_extension(base_dir, extension)
       files = find_file_by_extension(base_dir, extension)
       raise 'Wrong number of #{extension}: #{files}' if files.size != 1
 
-      to_open = files.first
+      files.first
+    end
+
+    def find_and_open_single(base_dir, extension)
+      to_open = first_by_extension
       puts "Opening #{to_open}"
       `start "" "#{to_open}"`
     end

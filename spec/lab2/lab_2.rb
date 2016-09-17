@@ -10,6 +10,8 @@ describe 'Lab2' do
     loader = Grading::ExerciseLoader.new("#{ENV['USERPROFILE']}/Downloads")
     most_recent = loader.most_recent_zip
     loader.unzip_to_path(most_recent, temp_dir)
+
+    loader.build_sln_in(temp_dir)
   end
 
   context 'Exercise 12' do
