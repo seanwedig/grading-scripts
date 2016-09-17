@@ -1,3 +1,6 @@
+spec/reference_programs
+
+
 *.gem
 *.rbc
 /.config
