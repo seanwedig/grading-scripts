@@ -27,7 +27,15 @@ module Grading
 
     def build_sln_in(dir)
       sln_file = first_by_extension(dir, 'sln')
-      `#{MS_BUILD} #{sln_file} /t:Clean;Rebuild`
+      system("#{MS_BUILD} #{sln_file} /t:Clean;Rebuild")
+    end
+
+    def built_exe_path_for_sln_in(dir)
+      most_recent = most_recent_zip
+      unzip_to_path(most_recent, dir)
+
+      build_sln_in(dir)
+      first_by_extension(dir, 'exe')
     end
 
     private
@@ -46,7 +54,6 @@ module Grading
 
     def first_by_extension(base_dir, extension)
       files = find_file_by_extension(base_dir, extension)
-      raise 'Wrong number of #{extension}: #{files}' if files.size != 1
 
       files.first
     end
