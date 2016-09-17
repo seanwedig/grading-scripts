@@ -59,7 +59,7 @@ module Grading
     end
 
     def find_and_open_single(base_dir, extension)
-      to_open = first_by_extension
+      to_open = first_by_extension(base_dir, extension)
       puts "Opening #{to_open}"
       `start "" "#{to_open}"`
     end
