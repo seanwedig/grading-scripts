@@ -10,6 +10,8 @@ begin
   most_recent = loader.most_recent_zip
   loader.unzip_to_path(most_recent, TEMP_DIR)
 
+  puts "Unzipped to #{TEMP_DIR}\n"
+
 
   puts "Building the solution..."
   built_prog_path = loader.built_exe_path_for_sln_in(TEMP_DIR)
