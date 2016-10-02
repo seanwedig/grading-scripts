@@ -2,7 +2,7 @@ require 'find'
 
 module Grading
   class ExerciseLoader
-    MS_BUILD = 'c:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild'
+    MS_BUILD = 'c:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe'
 
     def initialize(download_dir)
       @download_dir = clean_path(download_dir)
@@ -27,7 +27,7 @@ module Grading
 
     def build_sln_in(dir)
       sln_file = first_by_extension(dir, 'sln')
-      system("#{MS_BUILD} #{sln_file} /t:Clean;Rebuild")
+      system("\"#{MS_BUILD}\" #{sln_file} /t:Clean;Rebuild")
     end
 
     def built_exe_path_for_sln_in(dir)
