@@ -6,24 +6,28 @@ TEMP_DIR = "#{ENV['TMP']}/grading/lab2"
 
 loader = Grading::ExerciseLoader.new("#{ENV['USERPROFILE']}/Downloads")
 
+def prompt_yes_no(prompt, default_yes=true) 
+  print "#{prompt} y/n "
+  puts '[Y]:' if default_yes
+  puts '[N]:' unless default_yes
+
+  response = gets.chomp.downcase
+  (response == 'y') || (response.empty? && default_yes)
+end
+
+most_recent = loader.most_recent_zip
 begin
-  most_recent = loader.most_recent_zip
-  loader.unzip_to_path(most_recent, TEMP_DIR)
+  puts "Grading #{most_recent}"
 
-  puts "Unzipped to #{TEMP_DIR}\n"
-
-
+  puts "Unzipping to #{TEMP_DIR}\n"
   puts "Building the solution..."
   built_prog_path = loader.built_exe_path_for_sln_in(TEMP_DIR)
   puts "Opening eval and solution files"
   loader.open_exercise(TEMP_DIR)
 
   puts "\n\nRunning it..."
-  run_it = true
-  while run_it do
+  while prompt_yes_no('Run the program (again)?')
     `start "STUDENT" "#{File.expand_path(built_prog_path)}"`
-    puts "Run it again? Y/N"
-    run_it = gets.chomp.downcase == 'y'
   end
 
   puts "\n\nGRADING #{built_prog_path}"
@@ -35,6 +39,5 @@ ensure
   gets.chomp
   loader.cleanup(TEMP_DIR)
 
-  puts "\nCleanup downloaded file '#{most_recent}'? Y/N"
-  loader.cleanup(most_recent) if gets.chomp.downcase == 'y'
+  loader.cleanup(most_recent) if prompt_yes_no("Cleanup downloaded file '#{most_recent}'?")
 end
