@@ -1,6 +1,8 @@
 require 'fileutils'
 require 'find'
 require_relative 'lib/exercise_loader.rb'
+require 'pry'
+require 'pry-nav'
 
 TEMP_DIR = "#{ENV['TMP']}/grading/lab2" 
 
