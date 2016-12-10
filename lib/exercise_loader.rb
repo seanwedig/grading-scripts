@@ -13,7 +13,7 @@ module Grading
     end
 
     def unzip_to_path(zip_path, target_dir)
-      `unzip #{clean_path(zip_path)} -d #{clean_path(target_dir)}`
+      `"c:/Program Files/7-Zip/7z.exe" x "#{clean_path(zip_path)}" -o"#{clean_path(target_dir)}"`
     end
 
     def open_exercise(dir)
