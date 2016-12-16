@@ -9,7 +9,7 @@ module Grading
     end
 
     def most_recent_zip()
-      Dir.glob("#{@download_dir}/*.zip").max_by {|f| File.mtime(f)}
+      Dir.glob("#{@download_dir}/*.{zip,7z}").max_by {|f| File.mtime(f)}
     end
 
     def unzip_to_path(zip_path, target_dir)
